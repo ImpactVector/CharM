@@ -35,8 +35,11 @@ public static class ChoiceTypeCatalog
         CreateMetadataByElementType();
 
     /// <summary>
-    /// Gets every literal <c>ElementType</c> recognized by CharM, ordered by the
+    /// Gets built-in literal routing metadata, ordered by the
     /// historical wizard priority and then alphabetically for unordered aliases.
+    /// This is not the complete vocabulary of choice types in a loaded rules database.
+    /// Corpus discovery belongs to the rules-database API; discovered types may be
+    /// unrecognized here and still use the Details fallback.
     /// </summary>
     public static IReadOnlyList<ChoiceTypeMetadata> Known { get; } = Array.AsReadOnly(
         MetadataByElementType.Values

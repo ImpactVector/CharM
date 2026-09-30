@@ -86,7 +86,7 @@ public sealed class ChoiceTypeCatalogTests
     }
 
     [Fact]
-    public void Recognized_unordered_types_are_discoverable_after_historical_types()
+    public void Built_in_unordered_types_follow_historical_types()
     {
         string[] expected =
         [
@@ -107,16 +107,24 @@ public sealed class ChoiceTypeCatalogTests
         Assert.All(unordered, metadata => Assert.Equal(HistoricalTypeOrder.Length, metadata.SortOrder));
     }
 
-    [Fact]
-    public void Unknown_type_uses_details_fallback()
+    [Theory]
+    [InlineData("future choice type")]
+    [InlineData("Alignment")]
+    [InlineData("Gender")]
+    [InlineData("Build")]
+    [InlineData("Deity")]
+    [InlineData("Domain")]
+    public void Types_outside_built_in_metadata_use_details_fallback(string elementType)
     {
-        var metadata = ChoiceTypeCatalog.Describe("future choice type");
+        var metadata = ChoiceTypeCatalog.Describe(elementType);
 
-        Assert.Equal("future choice type", metadata.ElementType);
+        Assert.DoesNotContain(ChoiceTypeCatalog.Known,
+            item => string.Equals(item.ElementType, elementType, StringComparison.OrdinalIgnoreCase));
+        Assert.Equal(elementType, metadata.ElementType);
         Assert.Equal(WizardStep.Details, metadata.Step);
         Assert.Equal(HistoricalTypeOrder.Length, metadata.SortOrder);
         Assert.False(metadata.IsRecognized);
-        Assert.Equal(WizardStep.Details, CharacterCreationWizard.MapTypeToStep("future choice type"));
+        Assert.Equal(WizardStep.Details, CharacterCreationWizard.MapTypeToStep(elementType));
     }
 
     [Theory]
