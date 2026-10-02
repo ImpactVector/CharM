@@ -9,6 +9,7 @@
     <Project Path="src/CharM.Web.UI/CharM.Web.UI.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/CharM.Engine.Tests/CharM.Engine.Tests.csproj" />
     <Project Path="tests/CharM.RulesDb.Tests/CharM.RulesDb.Tests.csproj" />
   </Folder>
 </Solution>
